@@ -52,8 +52,8 @@ int main (void){
 	for(int k=0; k<size; k++)
 		data.trutht[k] = new int[data.redundant_bits];
 		
-	//cout<<"\nsize = "<<size;
-	//cout<<"\nr = "<<data.redundant_bits<<endl;
+	cout<<"\nsize = "<<size;
+	cout<<"\nr = "<<data.redundant_bits<<endl;
 	
 	//Generating Truth table for data.redundant_bits columns
 	for(int j=0;j < data.redundant_bits; j++){
@@ -108,7 +108,7 @@ int main (void){
 
 codeword change_data(codeword sent){
 	int ch, pos;
-	cout<<"\nEnter \t1)To Change a specific bit\n\t2)To Change a random bit\n\t3)Do not change data\t:";
+	cout<<"\nEnter \t1)To Change a specific bit\n\t2)To Change a random bit\n\t3)Do not change data\t\t:";
 	cin>>ch;
 	switch(ch){
 		case 1:
@@ -118,19 +118,20 @@ codeword change_data(codeword sent){
 			break;
 		case 2:
 			pos = rand() % sent.cw.length();
+			//cout<<"\n rand ="<<rand();
 			cout<<"\n\t\tBit at "<<pos + 1<<" is being changed...\n";
 			break;
 		case 3:
-			pos = 0;
+			pos = -1;
 			break;
 	}
-	if(pos){
+	if(pos>-1){
 		char tbit = sent.cw.at(pos);
 		//cout<<"\n\ttarget bit is "<<tbit;
 		if(tbit == '0')
 			sent.cw.replace(pos, 1, "1");
 		else
-			sent.cw.replace(pos, 1, "1");
+			sent.cw.replace(pos, 1, "0");
 	}
 	else{
 		cout<<"\n\t\tUnchanged is being sent...\n";
