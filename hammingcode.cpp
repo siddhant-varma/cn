@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdlib>
-#include <cstring>
+#include <string>
 #include <cmath>
 using namespace std;
 
@@ -145,22 +145,30 @@ int detect_error(codeword &received){
 	int *check_bits = new int(received.redundant_bits);
 	for(int j = 0; j < received.redundant_bits; j++){
 		int count1 = 0;
+		cout<<endl;
 		for(int i = 1; i < received.redundant_bits + received.msg.length() + 1; i++){
 			if (received.trutht[i][j] == 1 && received.cw[i-1] == '1'){
 				//cout<<"\ti = "<<i;
 				count1++;	
 			}	
 		}
-		//cout<<"\nCount = "<<count1<<endl;
+		//cout<<"\nCount = "<<count1;
 		if (count1 % 2)
 			check_bits[j] = 0;
 		else
 			check_bits[j] = 1;
+			
+		//cout<<endl<<check_bits[j];
 	}
-	char *error = new char(received.redundant_bits);
-	for(int k = 0; k <= (received.redundant_bits); k++){
-		error[k] = check_bits[received.redundant_bits - k];
+	//char *error = new char(received.redundant_bits);
+	string error = "";
+	for(int k = 0; k < (received.redundant_bits); k++){
+		//int index = received.redundant_bits - k - 1;
+		//cout<<"\n\tbit is "<<check_bits[index]<<" and index is "<<index;
+		error += to_string(check_bits[received.redundant_bits - k - 1]);
+		//cout<<endl<<error;
 	}
+	
 	cout<<"\nError Bit = "<<error;
 	return 0;
 	
