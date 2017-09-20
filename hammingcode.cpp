@@ -5,29 +5,38 @@
 using namespace std;
 
 struct codeword{
-	string msg;
-	string cw = "";
+	string msg, cw;
+	int redundant_bits, parity;
+	int **trutht;
+	
+	codeword(void){
+		cw = "";
+		redundant_bits = 1;
+	}
 };
+
+codeword change_data(codeword);
+int detect_error(codeword&);
 
 int main (void){
 	codeword data;
 	cout<<"Enter Binary Data: ";
 	cin>>data.msg;
 	
-	int m = data.msg.length(), r = 0;
+	int m = data.msg.length();
 	
-	//Finding value of r.
+	//Finding value of redundant_bits.
 	for(int i = 1; i <= m + 1; i++)
 		if( pow(2,i) >= (m+i+1) ){
-			r = i;
+			data.redundant_bits = i;
 			break;
 		}
-	//cout<<r<<endl;
+	//cout<<data.redundant_bits<<endl;
 	
-	int size = r + m+1;
+	int size = data.redundant_bits + m + 1;
 	int letter = 65;
 	int j = 0;
-	int t=(int) pow(2,r);
+	int t=(int) pow(2,data.redundant_bits);
 	//cout<<"\nt = "<<t;
 	for(int i = 1; i <= size; i++){
 		//cout<<"\ni = "<<i;
@@ -39,23 +48,23 @@ int main (void){
 	cout<<data.cw;
 	
 	//2D Dynamic array for truth table.
-	int **trutht = new int*[size];
+	data.trutht = new int*[size];
 	for(int k=0; k<size; k++)
-		trutht[k] = new int[r];
+		data.trutht[k] = new int[data.redundant_bits];
 		
 	//cout<<"\nsize = "<<size;
-	//cout<<"\nr = "<<r<<endl;
+	//cout<<"\nr = "<<data.redundant_bits<<endl;
 	
-	//Generating Truth table for r columns
-	for(int j=0;j < r; j++){
+	//Generating Truth table for data.redundant_bits columns
+	for(int j=0;j < data.redundant_bits; j++){
 		int counter = 0;
 		int turn = 0;
 		for(int i=0;i < size; i++){
 			if(counter < pow(2,j) && turn == 0)
-				trutht[i][j] = 0;
+				data.trutht[i][j] = 0;
 			
 			else if(counter < pow(2,j) && turn == 1)
-				trutht[i][j] = 1;
+				data.trutht[i][j] = 1;
 			
 			counter++;
 			if(counter == pow(2,j)){
@@ -68,17 +77,17 @@ int main (void){
 	//Displauing the Truth Table in correct format
 	for(int i=0;i < size; i++){
 		cout<<"i="<<i<<"\t\t";
-		for(int j=0;j < r; j++){
-			cout<<trutht[i][r-j-1];
+		for(int j=0;j < data.redundant_bits; j++){
+			cout<<trutht[i][data.redundant_bits-j-1];
 		}
 		cout<<endl;
 	}
 */	
 	//Counting Parity according to the Truth table occurence of 1 in respective places.
-	for(int j = 0; j < r; j++){
+	for(int j = 0; j < data.redundant_bits; j++){
 		int count1 = 0;
 		for(int i = 1; i < size; i++){
-			if (trutht[i][j] == 1 && data.cw[i-1] == '1'){
+			if (data.trutht[i][j] == 1 && data.cw[i-1] == '1'){
 				//cout<<"\ti = "<<i;
 				count1++;	
 			}		
@@ -90,6 +99,69 @@ int main (void){
 			data.cw.replace(pow(2,j) - 1,1, "0");
 	}
 	cout<<endl<<data.cw;
+	codeword send = change_data(data);
+	int pos = detect_error(send);
+	cout<<"\nError occured at "<<pos + 1;
 	
 	return 0;
+}
+
+codeword change_data(codeword sent){
+	int ch, pos;
+	cout<<"\nEnter \t1)To Change a specific bit\n\t2)To Change a random bit\n\t3)Do not change data\t:";
+	cin>>ch;
+	switch(ch){
+		case 1:
+			cout<<"\nEnter Position you wish to change(Natural indexing):\t";
+			cin>>pos;
+			pos--;
+			break;
+		case 2:
+			pos = rand() % sent.cw.length();
+			cout<<"\n\t\tBit at "<<pos + 1<<" is being changed...\n";
+			break;
+		case 3:
+			pos = 0;
+			break;
+	}
+	if(pos){
+		char tbit = sent.cw.at(pos);
+		//cout<<"\n\ttarget bit is "<<tbit;
+		if(tbit == '0')
+			sent.cw.replace(pos, 1, "1");
+		else
+			sent.cw.replace(pos, 1, "1");
+	}
+	else{
+		cout<<"\n\t\tUnchanged is being sent...\n";
+	}
+	cout<<"\nSent data is "<<sent.cw;
+	
+	return sent;
+}
+
+
+int detect_error(codeword &received){
+	int *check_bits = new int(received.redundant_bits);
+	for(int j = 0; j < received.redundant_bits; j++){
+		int count1 = 0;
+		for(int i = 1; i < received.redundant_bits + received.msg.length() + 1; i++){
+			if (received.trutht[i][j] == 1 && received.cw[i-1] == '1'){
+				//cout<<"\ti = "<<i;
+				count1++;	
+			}	
+		}
+		//cout<<"\nCount = "<<count1<<endl;
+		if (count1 % 2)
+			check_bits[j] = 0;
+		else
+			check_bits[j] = 1;
+	}
+	char *error = new char(received.redundant_bits);
+	for(int k = 0; k <= (received.redundant_bits); k++){
+		error[k] = check_bits[received.redundant_bits - k];
+	}
+	cout<<"\nError Bit = "<<error;
+	return 0;
+	
 }
