@@ -3,11 +3,11 @@
 
 using namespace std;
 
-void divide(int [], int [], int, int);
+void divide(int*, int*, int, int);
 
 int main(void){
-	int *dx, *gx, *tx, dlen, glen;
-	string data, gdata, tdata;
+	int *dx, *gx, dlen, glen;
+	string data, gdata;
 	
 	//Entering generator function and converting it to array
 	cout<<"\nEnter G(x): ";
@@ -31,7 +31,6 @@ int main(void){
 	//converts input data string to int array
 	for(int i = 0;i < data.length(); i++){
 		dx[i] = data[i] - '0';
-		//cout<<dx[i];
 	}
 	//cout<<"\n\t\tFine Here B";
 	
@@ -46,38 +45,30 @@ int main(void){
 	for(int i = 0;i < dlen; i++)
 		cout<<dx[i];//<<"\t"<<i<<endl;
 		
-	//tdata = data;
 	cout<<"\nData stream of tx :\t"<<data;
 	
-	cout<<"\nFine Here before tx";
-	//int *tx = dx;
-	cout<<"\nFine Here tx";
-	//tx = divide(gx, dx, glen, dlen);
 	divide(gx, dx, glen, dlen);
 	
 	cout<<"\n\t\t\tFine here back in main()\tT(x) is: \t"<<data;
 	
 	for(int i = 0;i < glen - 1; i++){
 		int temp = dx[dlen - glen + 1];
-		cout<<temp;
-		//data += temp;//<<"\t"<<i<<endl;	
+		cout<<temp;	
 	}
 	
 	cout<<"\nData stream After conversion:\t";
 	for(int i = 0;i < dlen; i++)
 		cout<<dx[i];
-
-	//cout<<"\nTransmitted stream of tx :\t"<<tdata;
 		
 	return 0;
 }
 
-void divide(int divisor[], int divident[], int a, int b){
+void divide(int *divisor, int *divident, int a, int b){
 	
 	cout<<"\n\t\t\tFine Here divide()";
 	
-	int sizedvs = a;//sizeof(divisor)/sizeof(divisor[1]);
-	int sizedvd = b;//sizeof(divident)/sizeof(divident[1]);
+	int sizedvs = a;
+	int sizedvd = b;
 	
 	//cout<<"\n\tLength of divisor:\t"<<sizedvs;
 	//cout<<"\n\tLength of divident:\t"<<sizedvd;
