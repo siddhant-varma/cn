@@ -3,104 +3,74 @@
 
 using namespace std;
 
-void divide(int*, int*, int, int);
+string divide(string, string);
 
 int main(void){
-	int *dx, *gx, dlen, glen;
-	string data, gdata;
+	string data, gdata, rx;
 	
 	//Entering generator function and converting it to array
 	cout<<"\nEnter G(x): ";
 	cin>>gdata;
-	glen = gdata.length();
-	gx = new int(glen);
-	cout<<"\nG(x) is :\t";
-	for(int i = 0;i < gdata.length(); i++){
-		gx[i] = gdata[i] - '0';
-		cout<<gx[i];
-	}
-	//cout<<"\n\t\tFine Here A";
 	
 	cout<<"\nEnter Data: ";
 	cin>>data;
 	
 	//cout<<"\nGiven Data Stream:\t";
-	dlen = data.length() + gdata.length() - 1; //	Size of transmitted bit stream
-	dx = new int(dlen);
-	
-	//converts input data string to int array
-	for(int i = 0;i < data.length(); i++){
-		dx[i] = data[i] - '0';
-	}
-	//cout<<"\n\t\tFine Here B";
+
+	cout<<"\n\t\tFine Here B";
 	
 	//appends int array with req no of zeros at the end
 	for(int i = 0;i < gdata.length() - 1; i++){
-		dx[i + data.length()] = 0;
-		//cout<<dx[i];
+		data += '0';
 	}
 	//cout<<"\n\t\tFine Here C";
 		
-	cout<<"\nData stream after appending 0's :\t";
-	for(int i = 0;i < dlen; i++)
-		cout<<dx[i];//<<"\t"<<i<<endl;
-		
-	cout<<"\nData stream of tx :\t"<<data;
+	cout<<"\nData stream after appending 0's :\t"<<data;
 	
-	divide(gx, dx, glen, dlen);
-	
+	rx = divide(gdata, data);
+	data.replace(data.length() - gdata.length() + 1, gdata.length() - 1, rx);
 	cout<<"\n\t\t\tFine here back in main()\tT(x) is: \t"<<data;
-	
-	for(int i = 0;i < glen - 1; i++){
-		int temp = dx[dlen - glen + 1];
-		cout<<temp;	
-	}
-	
-	cout<<"\nData stream After conversion:\t";
-	for(int i = 0;i < dlen; i++)
-		cout<<dx[i];
 		
 	return 0;
 }
 
-void divide(int *divisor, int *divident, int a, int b){
+string divide(string divisor, string divident){
 	
 	cout<<"\n\t\t\tFine Here divide()";
 	
-	int sizedvs = a;
-	int sizedvd = b;
+	int sizedvs = divisor.length();
+	int sizedvd = divident.length();
 	
 	//cout<<"\n\tLength of divisor:\t"<<sizedvs;
 	//cout<<"\n\tLength of divident:\t"<<sizedvd;
 
 	//Actual Division takes place here
 	for(int i = 0; i < sizedvd - sizedvs + 1; i++){
-		if(divident[i] == 0){
+		if(divident[i] == '0'){
 			for(int j = 0; j < sizedvs; j++){
-				if(divident[i + j] == 0){
-					divident[i + j] = 0;
+				if(divident[i + j] == '0'){
+					divident.replace(i + j, 1, "0");//divident[i + j] = 0;
 				}
 				else
-					divident[i + j] = 1;
+					divident.replace(i + j, 1, "1");//divident[i + j] = 1;
 			}
 		}
 		else{
 			for(int j = 0; j < sizedvs; j++){
 				if(divident[i + j] == divisor[j]){
-					divident[i + j] = 0;
+					divident.replace(i + j, 1, "0");//divident[i + j] = 0;
 				}
 				else
-					divident[i + j] = 1;
+					divident.replace(i + j, 1, "1");//divident[i + j] = 1;
 			}
 		}
-		/*cout<<endl;
-		for(int k = 0;k < sizedvd; k++)
-			cout<<divident[k];*/
 	}
 	
-	cout<<endl;
+	cout<<endl<<"Fine after actual division..\n"<<divident<<endl;
+	string temp = "";
 	for(int j = 0; j <  sizedvs - 1; j++){
 		cout<<divident[sizedvd - sizedvs + 1 + j];
+		temp += divident[sizedvd - sizedvs + 1 + j];
 }
-	//return divident;
+	return temp;
 }
