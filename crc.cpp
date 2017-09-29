@@ -3,11 +3,11 @@
 
 using namespace std;
 
-int* divide(int*, int*, int, int);
+void divide(int [], int [], int, int);
 
 int main(void){
-	int *dx, *gx, dlen, glen;
-	string data, gdata;
+	int *dx, *gx, *tx, dlen, glen;
+	string data, gdata, tdata;
 	
 	//Entering generator function and converting it to array
 	cout<<"\nEnter G(x): ";
@@ -42,47 +42,49 @@ int main(void){
 	}
 	//cout<<"\n\t\tFine Here C";
 		
-	cout<<"\nData stream to be sent:\t";
+	cout<<"\nData stream after appending 0's :\t";
 	for(int i = 0;i < dlen; i++)
 		cout<<dx[i];//<<"\t"<<i<<endl;
-	
+		
+	//tdata = data;
+	cout<<"\nData stream of tx :\t"<<data;
 	
 	cout<<"\nFine Here before tx";
-	//int *tx = new int(dlen);
+	//int *tx = dx;
 	cout<<"\nFine Here tx";
-	//tx = divide(gx, dx);
+	//tx = divide(gx, dx, glen, dlen);
 	divide(gx, dx, glen, dlen);
+	
+	cout<<"\n\t\t\tFine here back in main()\tT(x) is: \t"<<data;
+	
+	for(int i = 0;i < glen - 1; i++){
+		int temp = dx[dlen - glen + 1];
+		cout<<temp;
+		//data += temp;//<<"\t"<<i<<endl;	
+	}
+	
+	cout<<"\nData stream After conversion:\t";
+	for(int i = 0;i < dlen; i++)
+		cout<<dx[i];
+
+	//cout<<"\nTransmitted stream of tx :\t"<<tdata;
+		
 	return 0;
 }
 
-int* divide(int* divisor, int* divident, int a, int b){
-	int *rem, *tmp, *mult0, *sub;
+void divide(int divisor[], int divident[], int a, int b){
+	
 	cout<<"\n\t\t\tFine Here divide()";
+	
 	int sizedvs = a;//sizeof(divisor)/sizeof(divisor[1]);
 	int sizedvd = b;//sizeof(divident)/sizeof(divident[1]);
-	cout<<"\n\tLength of divisor:\t"<<sizedvs;
-	cout<<"\n\tLength of divident:\t"<<sizedvd;
 	
-	//rem = new int(sizedvs - 1);
-	//tmp = new int(sizedvs);		//
-	//mult0 = new int(sizedvs);	//Dynamic array of 0
-	//sub = new int(sizedvs);		//To be XOR with tmp
-	
-	
-	/*for(int i = 0; i < sizedvs - 1; i++){
-		//tmp[i] = divident[i];
-		mult0[i] = 0;
-	}
+	//cout<<"\n\tLength of divisor:\t"<<sizedvs;
+	//cout<<"\n\tLength of divident:\t"<<sizedvd;
 
-	mult0[sizedvs - 1] = 0;*/
-	
 	//Actual Division takes place here
-	for(int i = 0; i < sizedvd - sizedvs - 1; i++){
-		
-		//tmp[sizedvs - 1] = divident[i];
-		//Resolving on the basis of 
+	for(int i = 0; i < sizedvd - sizedvs + 1; i++){
 		if(divident[i] == 0){
-			//sub = mult0;
 			for(int j = 0; j < sizedvs; j++){
 				if(divident[i + j] == 0){
 					divident[i + j] = 0;
@@ -99,19 +101,15 @@ int* divide(int* divisor, int* divident, int a, int b){
 				else
 					divident[i + j] = 1;
 			}
-			//sub = divisor;
 		}
-		
-		
-		/*
-		for(int j = 0; j < sizedvs - 1; j++){
-			tmp[j] = rem[j];	
-		}*/
-		
-		cout<<endl;
-		for(int j = 0; j <  sizedvs - 1; j++){
-			cout<<divident[sizedvd - sizedvs + 1 + j];
+		/*cout<<endl;
+		for(int k = 0;k < sizedvd; k++)
+			cout<<divident[k];*/
 	}
+	
+	cout<<endl;
+	for(int j = 0; j <  sizedvs - 1; j++){
+		cout<<divident[sizedvd - sizedvs + 1 + j];
 }
-	return divident;
+	//return divident;
 }
