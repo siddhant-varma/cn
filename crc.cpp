@@ -21,17 +21,15 @@ int main(void){
 	//appends data stream with required no of zeros at the end
 	for(int i = 0;i < gdata.length() - 1; i++){
 		data += '0';
-	}		
-	cout<<"\nData stream after appending 0's :\t"<<data;
+	}
 	
 	//Replaces the placeholder bits with remainder bits
 	data.replace(data.length() - gdata.length() + 1, gdata.length() - 1, divide(gdata, data));
 	cout<<"\nT(x) is: \t"<<data;	//Transmitted bit stream
 	
-	//Changes the transmitted data stream as it would have been during transmission
+	//Changes the transmitted data stream as it would have been during transmission and divides it for remainder
 	//Checks for 1 in the remainder of T(x) received after transmission. And if present outputs error.
-	int error = divide(gdata, change_data(data)).find("1");
-	if (error != string::npos)
+	if (divide(gdata, change_data(data)).find("1") != string::npos)
     	cout<<"\n\n\t\tError detected in received data stream at receiver's side.\n";
     else
     	cout<<"\n\n\t\tNo Error occured during transmission.\n";
