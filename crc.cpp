@@ -19,9 +19,8 @@ int main(void){
 	cin>>data;
 	
 	//appends data stream with required no of zeros at the end
-	for(int i = 0;i < gdata.length() - 1; i++){
+	for(int i = 0;i < gdata.length() - 1; i++)
 		data += '0';
-	}
 	
 	//Replaces the placeholder bits with remainder bits
 	data.replace(data.length() - gdata.length() + 1, gdata.length() - 1, divide(gdata, data));
@@ -92,6 +91,7 @@ string change_data(string sent){
 			pos = -1;
 			break;
 	}
+	
 	if(pos>-1){
 		char tbit = sent.at(pos);
 		if(tbit == '0')
@@ -99,9 +99,9 @@ string change_data(string sent){
 		else
 			sent.replace(pos, 1, "0");
 	}
-	else{
+	else
 		cout<<"\n\t\tUnchanged is being sent...\n";
-	}
+		
 	cout<<"\nSent data is:\t"<<sent;
 	
 	return sent;

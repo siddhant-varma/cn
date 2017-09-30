@@ -1,6 +1,0 @@
-input string of binary
-convert it to int array
-append g(x) with 0 as len of d(x) - 1
-perform xor on the group of len of D(x)
-store rem(x) and recursively divide until last binary int
-add the last rem(x) in the place of the step 3 bits
