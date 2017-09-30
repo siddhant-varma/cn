@@ -1,6 +1,7 @@
-#include <iostream>
-#include <cstdlib>
-
+#include <iostream>	// cout & cin ...
+#include <cstdio>	// NULL
+#include <cstdlib>	// rand()
+#include <ctime> 	// time()
 using namespace std;
 
 string divide(string, string);
@@ -26,15 +27,19 @@ int main(void){
 	//Replaces the placeholder bits with remainder bits
 	data.replace(data.length() - gdata.length() + 1, gdata.length() - 1, divide(gdata, data));
 	cout<<"\nT(x) is: \t"<<data;	//Transmitted bit stream
-		
+	
+	//Changes the transmitted data stream as it would have been during transmission
 	tdata = divide(gdata, change_data(data));
 	cout<<"\nRemainder for T(x):\t"<<tdata;
 	
+	//Checks for 1 in the remainder of T(x) received after transmission. And if present outputs error.
 	int error = tdata.find("1");
 	if (error != string::npos)
-    	cout << "\n\t\tError detected in received data stream at receiver's side.\n";
+    	cout<<"\n\n\t\tError detected in received data stream at receiver's side.\n";
+    else
+    	cout<<"\n\n\t\tNo Error occured during transmission.\n";
 	
-	return 0;
+	return 0;	//Successfully terminating the program
 }
 
 string divide(string divisor, string divident){
@@ -84,8 +89,8 @@ string change_data(string sent){
 			pos--;
 			break;
 		case 2:
-			pos = rand() % sent.length();
-			//cout<<"\n rand ="<<rand();
+			srand(time(NULL));
+			pos = rand() % (sent.length() - 1);
 			cout<<"\n\t\tBit at "<<pos + 1<<" is being changed...\n";
 			break;
 		case 3:
@@ -94,7 +99,6 @@ string change_data(string sent){
 	}
 	if(pos>-1){
 		char tbit = sent.at(pos);
-		//cout<<"\n\ttarget bit is "<<tbit;
 		if(tbit == '0')
 			sent.replace(pos, 1, "1");
 		else
