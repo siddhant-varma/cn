@@ -30,6 +30,10 @@ int main(void){
 	tdata = divide(gdata, change_data(data));
 	cout<<"\nRemainder for T(x):\t"<<tdata;
 	
+	int error = tdata.find("1");
+	if (error != string::npos)
+    	cout << "\n\t\tError detected in received data stream at receiver's side.\n";
+	
 	return 0;
 }
 
