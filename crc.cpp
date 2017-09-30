@@ -8,7 +8,7 @@ string divide(string, string);
 string change_data(string);
 
 int main(void){
-	string data, gdata, tdata;
+	string data, gdata;
 	
 	//Entering generator function
 	cout<<"Enter G(x): ";
@@ -29,11 +29,8 @@ int main(void){
 	cout<<"\nT(x) is: \t"<<data;	//Transmitted bit stream
 	
 	//Changes the transmitted data stream as it would have been during transmission
-	tdata = divide(gdata, change_data(data));
-	cout<<"\nRemainder for T(x):\t"<<tdata;
-	
 	//Checks for 1 in the remainder of T(x) received after transmission. And if present outputs error.
-	int error = tdata.find("1");
+	int error = divide(gdata, change_data(data)).find("1");
 	if (error != string::npos)
     	cout<<"\n\n\t\tError detected in received data stream at receiver's side.\n";
     else
@@ -90,8 +87,8 @@ string change_data(string sent){
 			break;
 		case 2:
 			srand(time(NULL));
-			pos = rand() % (sent.length() - 1);
-			cout<<"\n\t\tBit at "<<pos + 1<<" is being changed...\n";
+			pos = rand() % (sent.length());
+			cout<<"\n\t\tBit at Natural Index "<<pos + 1<<" is being changed...\n";
 			break;
 		case 3:
 			pos = -1;
