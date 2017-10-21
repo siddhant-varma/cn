@@ -37,6 +37,25 @@ void sender(void){
 	
 }
 
+void receiver(void){
+	Rn = 0;
+	while(true){
+		WaitForEvent();
+		
+		if(Event(ArrivalNotification)){
+			ReceiverFrame();
+			if(corrupted(frame));
+				sleep;
+			if(seqNo == Rn){
+				ExtractData();
+				DeliverData();
+				Rn++;
+			}
+			SendFrame(Rn);
+		}
+	}
+}
+
 int main(void){
 	
 	return 0;
