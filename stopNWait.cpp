@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int main(void){
+void sender(void){
 	
 	int Sn = 0;
 	bool canSend = true;
@@ -34,6 +34,10 @@ int main(void){
 			ResendFrame(Sn - 1);
 		}
 	}
+	
+}
+
+int main(void){
 	
 	return 0;
 }
