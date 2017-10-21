@@ -2,4 +2,7 @@
 *.ini
 *.lnk
 *temp.cpp
+*.jpg
+*.pdf
+*.gch
 
