@@ -19,12 +19,15 @@ void sender(void){
 			temp = GetData();
 			f = MakeFrame(Sn, temp);
 			buffer = StoreFrame(f);
-			success = SendFrame(f);
 			e = StartTimer();
-			if(e != TIMEOUT){
+			success = SendFrame(f);
+			if(e != TIMEOUT && success){
 				Sn = (Sn + 1) % 2;
 				e = receiver(f);
 				canSend = false;
+			}
+			else if(!success){
+				e = ERROR;
 			}
 		}
 		
@@ -35,6 +38,7 @@ void sender(void){
 		if(e == FRAME_ARRIVED){
 			//cout<<"\nAcknowledgement received.";
 			seqNo ackNo = ReceiveFrame(f);
+			cout<<"\n\t\t\tAckNo = "<<ackNo<<"\tSn = "<<Sn;
 			if( !corrupted(f,1) && ackNo == Sn){
 				StopTimer();
 				PurgeFrame(Sn-1, f);
@@ -47,11 +51,17 @@ void sender(void){
 
 			StartTimer();
 			//ResendFrame(Sn - 1);
+			cout<<"\nTimeout or Error occured...";
 			success = SendFrame(f);
 			e = StartTimer();
-			Sn++;
-			canSend = false;
-			e = PACKET_AVAILABLE;
+			if(e != TIMEOUT && success){
+				Sn = (Sn + 1) % 2;
+				e = receiver(f);
+				canSend = false;
+			}			
+			else if(!success){
+				e = ERROR;
+			}
 		}
 		
 		/*if(success && e == FRAME_ARRIVED){
@@ -71,8 +81,8 @@ Event receiver(frame &received){
 		
 		if(true){	//Event(ArrivalNotification)
 			f = ReceiverFrame(received);
-			//if(corrupted(f, 1));
-				//Sleep;
+			if(corrupted(f, 0))
+				return ERROR;
 			if(f.seq == Rn){
 				//cout<<"\n\tEquals...";
 				packet data = ExtractData(f);
