@@ -21,13 +21,16 @@ void sender(void){
 			buffer = StoreFrame(f);
 			success = SendFrame(f);
 			e = StartTimer();
-			Sn = Sn++ % 2;
-			canSend = false;
+			if(e != TIMEOUT){
+				Sn = (Sn + 1) % 2;
+				e = receiver(f);
+				canSend = false;
+			}
 		}
 		
-		if(success && e == FRAME_ARRIVED){
+		/*if(success && e == FRAME_ARRIVED){
 			e = receiver(f);
-		}
+		}*/
 		//WaitForEvent(); //StartTimer() does the work.
 		if(e == FRAME_ARRIVED){
 			cout<<"\nAcknowledgement received.";
@@ -48,6 +51,7 @@ void sender(void){
 			e = StartTimer();
 			Sn++;
 			canSend = false;
+			e = PACKET_AVAILABLE;
 		}
 		
 		/*if(success && e == FRAME_ARRIVED){
@@ -73,7 +77,7 @@ Event receiver(frame &received){
 				cout<<"\n\tEquals...";
 				packet data = ExtractData(f);
 				DeliverData(data);
-				Rn = Rn++ % 2;
+				Rn = (Rn + 1) % 2;
 			}
 			//frame foo;
 			success = SendFrame(f);
