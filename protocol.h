@@ -38,7 +38,7 @@ seqNo ReceiveFrame(frame&);
 
 void PurgeFrame(seqNo, frame&);
 
-static int MAX_TIME = 100;
+static int MAX_TIME = 10;
 static int running = 0;
 Event StartTimer();
 void StopTimer();
