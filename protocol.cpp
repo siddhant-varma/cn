@@ -47,7 +47,7 @@ bool ToPhysicalLayer(frame &f){*/
 }
 
 bool OverTransmissionMedia(frame &f){
-	if(randNum(.9)){
+	if(randNum(.75)){
 		f.ack = (f.seq + 1) % 2;//for receiver side SendFrame()
 		return true;
 	}
@@ -78,7 +78,8 @@ void PurgeFrame(seqNo s, frame &f){
 Event StartTimer(){
 	cout<<"\nTimer Running...";
 	for( ; running < MAX_TIME; running++){
-		Sleep(1);
+		cout<<"\t"<<running;
+		Sleep(.1);
 		if(randNum(.8))
 			return FRAME_ARRIVED;
 	}
@@ -111,12 +112,12 @@ void DeliverData(packet &p){
 }
 
 bool corrupted(frame &fr, int a){
-	/*if(a)
+	if(a)
 		cout<<"\nAcknowledgement ";
 	else
-		cout<<"\nFrame ";*/
-	if(randNum(.9)){
-		//cout<<"Not Corrupted.\n";
+		cout<<"\nFrame ";
+	if(randNum(.8)){
+		cout<<"Not Corrupted.\n";
 		return false;
 	}
 	else{
