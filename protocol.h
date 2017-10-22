@@ -11,7 +11,7 @@ typedef enum{
 } Event;
 
 typedef struct{
-	char data;		//Data contained in and as packet
+	char data[20];		//Data contained in and as packet
 } packet;
 
 typedef struct{
