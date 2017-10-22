@@ -33,7 +33,7 @@ void sender(void){
 		}*/
 		//WaitForEvent(); //StartTimer() does the work.
 		if(e == FRAME_ARRIVED){
-			cout<<"\nAcknowledgement received.";
+			//cout<<"\nAcknowledgement received.";
 			seqNo ackNo = ReceiveFrame(f);
 			if( !corrupted(f,1) && ackNo == Sn){
 				StopTimer();
@@ -74,7 +74,7 @@ Event receiver(frame &received){
 			//if(corrupted(f, 1));
 				//Sleep;
 			if(f.seq == Rn){
-				cout<<"\n\tEquals...";
+				//cout<<"\n\tEquals...";
 				packet data = ExtractData(f);
 				DeliverData(data);
 				Rn = (Rn + 1) % 2;

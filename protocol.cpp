@@ -9,7 +9,7 @@ using namespace std;
 int randNum(float chance){
 	//srand(0);
 	int temp = rand() % 100;
-	cout<<"\n\t\t\tRandom Num = "<<temp;
+	//cout<<"\n\t\t\tRandom Num = "<<temp;
 	if(temp <= chance * 100){
 		return 1;
 	}
@@ -61,7 +61,7 @@ bool OverTransmissionMedia(frame &f){
 
 }*/
 seqNo ReceiveFrame(frame &f){
-	cout<<"\nReceving Acknowledgement...";
+	cout<<"\nAcknowledgement Received";
 	return f.ack;
 }
 
@@ -111,16 +111,16 @@ void DeliverData(packet &p){
 }
 
 bool corrupted(frame &fr, int a){
-	if(a)
+	/*if(a)
 		cout<<"\nAcknowledgement ";
 	else
-		cout<<"\nFrame ";
+		cout<<"\nFrame ";*/
 	if(randNum(.9)){
-		cout<<"Not Corrupted.\n";
+		//cout<<"Not Corrupted.\n";
 		return false;
 	}
 	else{
-		cout<<"Corrupted...\n";
+		//cout<<"Corrupted...\n";
 		return true;
 	}
 }
