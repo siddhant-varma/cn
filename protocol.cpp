@@ -116,7 +116,7 @@ bool corrupted(frame &fr, int a){
 		cout<<"\nAcknowledgement ";
 	else
 		cout<<"\nFrame ";
-	if(randNum(.8)){
+	if(randNum(.2)){
 		cout<<"Not Corrupted.\n";
 		return false;
 	}
