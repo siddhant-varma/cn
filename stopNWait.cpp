@@ -41,7 +41,7 @@ void sender(void){
 		if(e == FRAME_ARRIVED){
 			//cout<<"\nAcknowledgement received.";
 			seqNo ackNo = ReceiveFrame(temp);
-			cout<<"\n\t\t\tAckNo = "<<ackNo<<"\tSn = "<<Sn;
+			//cout<<"\n\t\t\tAckNo = "<<ackNo<<"\tSn = "<<Sn;
 			if( !corrupted(temp,1) && ackNo == Sn){
 				StopTimer();
 				PurgeFrame(Sn-1, buffer);
