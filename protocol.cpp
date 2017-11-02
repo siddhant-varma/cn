@@ -19,7 +19,7 @@ int randNum(float chance){
 
 packet GetData(void){
 	packet p;
-	cout<<"\nEnter Message:\t";
+	cout<<"\n\nEnter Message:\t";
 	cin>>p.data;
 	return p;
 }
@@ -59,7 +59,7 @@ bool OverTransmissionMedia(frame &f){*/
 
 }*/
 seqNo ReceiveFrame(frame &f){
-	cout<<"\n\t\t\t\t\tAcknowledgement Received";
+	cout<<"\nAcknowledgement Received";
 	return f.ack;
 }
 
@@ -98,19 +98,19 @@ frame& ReceiverFrame(frame &fr){
 }
 
 packet ExtractData(frame &fr){
-	cout<<"\n\t\t\t\t\tExtracting Frame...";
+	cout<<"\n\t\t\t\t\t\tExtracting Frame...";
 	return fr.info;
 }
 
 void DeliverData(packet &p){
-	cout<<"\n\t\t\t\t\tPacket successfully delivered to NL.";
-	cout<<"\n\t\t\t\t\tMessage:\t"<<p.data;
+	cout<<"\n\t\t\t\t\t\tPacket successfully delivered to NL.\n";
+	cout<<"\n\t\t\t\t\t\tMessage:\t"<<p.data<<endl;
 	return;
 }
 
 bool SendAck(frame &f){
 	f.ack = (f.seq + 1) % 2;//for receiver side SendFrame()
-	cout<<"\nSending Acknowledgement...";
+	//cout<<"\n\t\t\t\t\t\tSending Acknowledgement...";
 	/*return ToPhysicalLayer(f);
 }
 bool ToPhysicalLayer(frame &f){
@@ -122,7 +122,7 @@ bool OverTransmissionMedia(frame &f){*/
 		return true;
 	}
 	else{
-		cout<<"\n\t\t\tAcknowledgement Lost during transmission...";
+		cout<<"\n\t\t\tAcknowledgement Lost during transmission...\n";
 		return false;
 	}
 }

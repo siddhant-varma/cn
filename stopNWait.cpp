@@ -49,7 +49,7 @@ void sender(void){
 				e = PACKET_AVAILABLE;
 			}
 			else{
-				cout<<"\n\t\t\tAcknowldegement Corrupted...";
+				cout<<"\nAcknowldegement Corrupted...\n";
 				e = ERROR;
 			}
 		}
@@ -58,7 +58,7 @@ void sender(void){
 
 			StartTimer();
 			//ResendFrame(Sn - 1);
-			cout<<"\nTimeout or Error occured...";
+			cout<<"\n\t\t\tTimeout or Error occured...\n";
 			success = SendFrame(f);
 			e = StartTimer();
 			if(e != TIMEOUT && success){
@@ -105,13 +105,13 @@ frame receiver(frame received){
 			//frame foo;
 			success = SendAck(f);
 			if(success){
-				cout<<"\nAcknowledgement Sent...";
+				cout<<"\n\t\t\t\t\t\tAcknowledgement Sent...";
 				//return FRAME_ARRIVED;
 				
 			}
 			else{
 				f.ack = -1;
-				cout<<"\nAcknowledgement lost...\n";
+				//cout<<"\n\t\t\t\t\t\tAcknowledgement lost...\n";
 				//return ERROR;
 			}
 			return f;
