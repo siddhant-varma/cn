@@ -3,28 +3,31 @@
 
 using namespace std;
 
-Event receiver(frame&);
-
+frame receiver(frame);
 
 void sender(void){
 	seqNo Sn = 0;
 	seqNo ackNo;	//Frame No to be sent
 	bool canSend = true, success;
 	Event e = PACKET_AVAILABLE;
-	packet temp;
-	frame f, buffer;
+	packet tep;
+	frame f, buffer, temp;
 	
 	while(true){
 		if(e == PACKET_AVAILABLE && canSend){
-			temp = GetData();
-			f = MakeFrame(Sn, temp);
+			tep = GetData();
+			f = MakeFrame(Sn, tep);
 			buffer = StoreFrame(f);
 			e = StartTimer();
 			success = SendFrame(f);
 			if(e != TIMEOUT && success){
 				Sn = (Sn + 1) % 2;
-				e = receiver(f);
+				temp = receiver(f);	// returns FRAME_ARRIVED on succesful arrival of ACK
 				canSend = false;
+				if(temp.ack > -1)
+					e = FRAME_ARRIVED;
+				//else
+					//e = ERROR;
 			}
 			else if(!success){
 				e = ERROR;
@@ -37,13 +40,17 @@ void sender(void){
 		//WaitForEvent(); //StartTimer() does the work.
 		if(e == FRAME_ARRIVED){
 			//cout<<"\nAcknowledgement received.";
-			seqNo ackNo = ReceiveFrame(f);
+			seqNo ackNo = ReceiveFrame(temp);
 			cout<<"\n\t\t\tAckNo = "<<ackNo<<"\tSn = "<<Sn;
-			if( !corrupted(f,1) && ackNo == Sn){
+			if( !corrupted(temp,1) && ackNo == Sn){
 				StopTimer();
-				PurgeFrame(Sn-1, f);
+				PurgeFrame(Sn-1, buffer);
 				canSend = true;
 				e = PACKET_AVAILABLE;
+			}
+			else{
+				cout<<"\n\t\t\tAcknowldegement Corrupted...";
+				e = ERROR;
 			}
 		}
 		
@@ -56,8 +63,12 @@ void sender(void){
 			e = StartTimer();
 			if(e != TIMEOUT && success){
 				Sn = (Sn + 1) % 2;
-				e = receiver(f);
+				f = receiver(f);
 				canSend = false;
+				if(f.ack > -1)
+					e = FRAME_ARRIVED;
+				else
+					e = ERROR;
 			}			
 			else if(!success){
 				e = ERROR;
@@ -72,7 +83,7 @@ void sender(void){
 //}
 
 seqNo Rn = 0;
-Event receiver(frame &received){
+frame receiver(frame received){
 	frame f;
 	bool success;
 	while(true){
@@ -81,8 +92,10 @@ Event receiver(frame &received){
 		
 		if(true){	//Event(ArrivalNotification)
 			f = ReceiverFrame(received);
-			if(corrupted(f, 0))
-				return ERROR;
+			if(corrupted(f, 0)){
+				f.ack = -1;
+				//return ERROR;
+			}
 			if(f.seq == Rn){
 				//cout<<"\n\tEquals...";
 				packet data = ExtractData(f);
@@ -90,15 +103,18 @@ Event receiver(frame &received){
 				Rn = (Rn + 1) % 2;
 			}
 			//frame foo;
-			success = SendFrame(f);
+			success = SendAck(f);
 			if(success){
 				cout<<"\nAcknowledgement Sent...";
-				return FRAME_ARRIVED;
+				//return FRAME_ARRIVED;
+				
 			}
 			else{
+				f.ack = -1;
 				cout<<"\nAcknowledgement lost...\n";
-				return ERROR;
+				//return ERROR;
 			}
+			return f;
 
 		}
 	}

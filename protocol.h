@@ -32,7 +32,7 @@ bool SendFrame(frame&);
 
 //void ToPhysicalLayer(frame&);
 
-bool OverTransmissionMedia(frame&);
+//bool OverTransmissionMedia(frame&);
 
 seqNo ReceiveFrame(frame&);
 
@@ -50,6 +50,8 @@ frame& ReceiverFrame(frame&);
 packet ExtractData(frame&);
 
 void DeliverData(packet&);
+
+bool SendAck(frame&);
 
 bool corrupted(frame&, int);
 #endif
