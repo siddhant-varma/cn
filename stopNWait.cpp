@@ -26,8 +26,8 @@ void sender(void){
 				canSend = false;
 				if(temp.ack > -1)
 					e = FRAME_ARRIVED;
-				//else
-					//e = ERROR;
+				else
+					e = ERROR;
 			}
 			else if(!success){
 				e = ERROR;
@@ -62,7 +62,7 @@ void sender(void){
 			success = SendFrame(f);
 			e = StartTimer();
 			if(e != TIMEOUT && success){
-				Sn = (Sn + 1) % 2;
+				//Sn = (Sn + 1) % 2;
 				f = receiver(f);
 				canSend = false;
 				if(f.ack > -1)
