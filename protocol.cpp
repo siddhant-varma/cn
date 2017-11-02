@@ -7,14 +7,11 @@
 using namespace std;
 
 int randNum(float chance){
-	//srand(0);
 	int temp = rand() % 100;
-	//cout<<"\n\t\t\tRandom Num = "<<temp;
 	if(temp <= chance * 100){
 		return 1;
 	}
 	else return 0;
-	//return temp;
 }
 
 packet GetData(void){
@@ -45,19 +42,14 @@ bool ToPhysicalLayer(frame &f){
 	return OverTransmissionMedia(f);
 }
 bool OverTransmissionMedia(frame &f){*/
-	if(randNum(.75)){
-		//f.ack = (f.seq + 1) % 2;//for receiver side SendFrame()
+	if(randNum(.75))
 		return true;
-	}
 	else{
 		cout<<"\n\t\t\tFrame Lost during transmission...";
 		return false;
 	}
 }
 
-/*void WaitForEvent(Event &e){
-
-}*/
 seqNo ReceiveFrame(frame &f){
 	cout<<"\nAcknowledgement Received";
 	return f.ack;
@@ -71,29 +63,21 @@ void PurgeFrame(seqNo s, frame &f){
 	return;
 } 
 
-//static int MAX_TIME = 100;
-//static int running = 0;
 Event StartTimer(){
-	//cout<<"\n\t\t\tTimer Running...";
 	for( ; running < MAX_TIME; running++){
-		//cout<<"\t"<<running;
-		//Sleep(.1);
 		if(randNum(.6))
 			return FRAME_ARRIVED;
 	}
-	//cout<<"\n\t\t\tTimer TimeOut";
 	return TIMEOUT;
 }
 
 void StopTimer(){
 	running = 0;
-	//cout<<"\n\t\t\tTimer stopped...";
 	return;
 }
 
 //ReceiverSide
 frame& ReceiverFrame(frame &fr){
-	//cout<<"\n\t\t\t\t\t\tIn ReceiveFrame()..."<<fr.seq;
 	return fr;
 }
 
@@ -109,8 +93,7 @@ void DeliverData(packet &p){
 }
 
 bool SendAck(frame &f){
-	f.ack = (f.seq + 1) % 2;//for receiver side SendFrame()
-	//cout<<"\n\t\t\t\t\t\tSending Acknowledgement...";
+	f.ack = (f.seq + 1) % 2;
 	/*return ToPhysicalLayer(f);
 }
 bool ToPhysicalLayer(frame &f){
@@ -127,18 +110,8 @@ bool OverTransmissionMedia(frame &f){*/
 	}
 }
 
-
 bool corrupted(frame &fr, int a){
-	/*if(a)
-		cout<<"\nAcknowledgement ";
-	else
-		cout<<"\nFrame ";*/
-	if(randNum(.8)){
-		//cout<<"Not Corrupted.\n";
+	if(randNum(.8))
 		return false;
-	}
-	else{
-		//cout<<"Corrupted...\n";
-		return true;
-	}
+	else return true;
 }
