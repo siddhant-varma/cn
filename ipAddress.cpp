@@ -13,19 +13,11 @@ int main(void){
 	int i = 0;
 	while(pos != string::npos){
 		pos = address.find(".", prev+1);
-		//cout<<"\tpos = "<<pos<<endl;
 		string tar = address.substr(prev + 1, pos - prev - 1);
-		//cout<<tar<<endl;
 		prev = pos;
 		add[i++] = stoi(tar, &sz);
 	}
-		
-	/*pos = address.find(".");
-	string tar = address.substr(0, address.find("."));
-	cout<<tar;*/
 	
-	//int num = stoi(address.substr(0, address.find(".")), &pos);
-	//cout<<num;
 	bool valid = true;
 	for(int j = 0; j < 4; j++){
 		if(add[j] > 255 || add[j] < 0)
@@ -47,19 +39,5 @@ int main(void){
 	}
 	else
 		cout<<"\nWrong IP Address...";
-	
-	/*
-	switch(num){
-		case :	
-			break;
-		case num < 192:	
-			break;
-		case num < 224:	cout<<"\Class C";
-			break;
-		case num < 240:	cout<<"\Class D";
-			break;
-		case num < 256:	cout<<"\Class E";
-			break;
-	}*/
 	
 }
