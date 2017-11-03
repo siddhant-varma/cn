@@ -82,6 +82,7 @@ frame receiver(frame received){
 			f = ReceiverFrame(received);
 			if(corrupted(f, 0)){
 				f.ack = -1;
+				return f;
 			}
 			if(f.seq == Rn){
 				packet data = ExtractData(f);	//Outputs Extracting Frame
