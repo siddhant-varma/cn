@@ -5,4 +5,5 @@
 *.jpg
 *.pdf
 *.gch
-
+*beta*
+*.docx
