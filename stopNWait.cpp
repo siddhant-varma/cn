@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdlib>
+#include <cstdio>
 #include "protocol.h"
 
 using namespace std;
@@ -36,7 +38,7 @@ void sender(void){
 		//WaitForEvent(); //StartTimer() does the work.
 		if(e == FRAME_ARRIVED){
 			seqNo ackNo = ReceiveFrame(temp);	// Outputs Acknowledgement Recevied
-			//cout<<"\n\t\t\tAckNo = "<<ackNo<<"\tSn = "<<Sn;
+			cout<<"\n\t\t\tAckNo = "<<ackNo<<"\tSn = "<<Sn;
 			if( !corrupted(temp,1) && ackNo == Sn){
 				StopTimer();
 				PurgeFrame(Sn-1, buffer);
@@ -50,6 +52,7 @@ void sender(void){
 		}
 		
 		if(e == TIMEOUT || e == ERROR){
+			Sn = abs(Sn-1);
 
 			StartTimer();
 			//Does the work of ResendFrame(Sn - 1);
@@ -57,7 +60,7 @@ void sender(void){
 			success = SendFrame(f);
 			e = StartTimer();
 			if(e != TIMEOUT && success){
-				//Sn = (Sn + 1) % 2;
+				Sn = (Sn + 1) % 2;
 				f = receiver(f);
 				canSend = false;
 				if(f.ack > -1)
