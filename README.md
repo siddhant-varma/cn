@@ -1,2 +1,1 @@
-# cn
-Computer Networks practicals
+Computer Network Practicals

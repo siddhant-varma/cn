@@ -23,7 +23,12 @@ int main(void){
 		if(add[j] > 255 || add[j] < 0)
 			valid = false;
 	}
+	//pos = address.find(".");
+	//string tar = address.substr(0, address.find("."));
+	//cout<<tar;
 	
+	int num = stoi(address.substr(0, address.find(".")), &pos);
+	//cout<<num;
 	if(valid){
 		int num = add[0];
 		if(num < 128)
