@@ -34,16 +34,16 @@ int main (void){
 	//cout<<data.redundant_bits<<endl;
 	
 	int size = data.redundant_bits + m + 1;
-	int letter = 65;
-	int j = 0;
+	int letter = 65;	//	char A ascii value
+	int j = 0;			// 	Increment variable for codeword
 	int t=(int) pow(2,data.redundant_bits);
 	//cout<<"\nt = "<<t;
-	for(int i = 1; i <= size; i++){
+	for(int i = 1; i <= size; i++){	//	NOTE:	Iteration should be from 1 to size (inclusive)
 		//cout<<"\ni = "<<i;
 		if(t % i == 0)
-			data.cw += letter++;
+			data.cw += letter++;	// Stuffing alphabets into codeword at 2^i places
 		else
-			data.cw += data.msg[j++];
+			data.cw += data.msg[j++];	// else usual codeword
 	}
 	cout<<data.cw;
 	
@@ -56,10 +56,11 @@ int main (void){
 	cout<<"\nr = "<<data.redundant_bits<<endl;
 	
 	//Generating Truth table for data.redundant_bits columns
-	for(int j=0;j < data.redundant_bits; j++){
-		int counter = 0;
-		int turn = 0;
-		for(int i=0;i < size; i++){
+	// Columns:	2^0		2^1		2^2		2^3	...
+	for(int j=0;j < data.redundant_bits; j++){	//	Outer loop for row
+		int counter = 0;						//	Keeps track of no of 0 or 1
+		int turn = 0;							//  determines turn for 0 or 1 to be inputted into table
+		for(int i=0;i < size; i++){				//	Inner loop for column
 			if(counter < pow(2,j) && turn == 0)
 				data.trutht[i][j] = 0;
 			
@@ -67,7 +68,7 @@ int main (void){
 				data.trutht[i][j] = 1;
 			
 			counter++;
-			if(counter == pow(2,j)){
+			if(counter == pow(2,j)){			// If counter is 2^j, reset counter and invert turn.
 				turn = !turn;
 				counter = 0;
 			}
