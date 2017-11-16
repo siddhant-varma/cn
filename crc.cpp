@@ -36,7 +36,7 @@ int main(void){
 	return 0;	//Successfully terminating the program
 }
 
-string divide(string divisor, string divident){
+string divide(string divisor, string divident){	//	divident / divisor
 	
 	int sizedvs = divisor.length();		//Size of divisor 
 	int sizedvd = divident.length();	//Size of divident
@@ -44,7 +44,7 @@ string divide(string divisor, string divident){
 	//Actual Division takes place here, with i as the iterator for sliding divison window
 	//And j iterates in the sliding window
 	for(int i = 0; i < sizedvd - sizedvs + 1; i++){
-		if(divident[i] == '0'){
+		/*if(divident[i] == '0'){
 			for(int j = 0; j < sizedvs; j++){
 				if(divident[i + j] == '0'){
 					divident.replace(i + j, 1, "0");
@@ -53,7 +53,8 @@ string divide(string divisor, string divident){
 					divident.replace(i + j, 1, "1");
 			}
 		}
-		else{
+		else{*/
+		if(divident[i] == '1'){
 			for(int j = 0; j < sizedvs; j++){
 				
 				if(divident[i + j] == divisor[j])
